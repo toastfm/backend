@@ -1,0 +1,5 @@
+---
+- name: "Restart gearman"
+  service: "name=gearman-job-server state=restarted"
+  sudo: yes
+  ignore_errors: yes

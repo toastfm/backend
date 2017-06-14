@@ -1,0 +1,9 @@
+---
+- name: install init.d script
+  copy: src=init.d-gearman-manager dest=/etc/init.d/gearman-manager owner=root group=root mode=0755
+- name: create config directory
+  file: path=/etc/gearman-manager state=directory owner=root group=root mode=0755
+- name: install config.ini
+  template: src=gearman-manager.ini dest=/etc/gearman-manager/config.ini owner=root group=root mode=0755
+- name: start gearman manager
+  service: name=gearman-manager state=restarted enabled=yes

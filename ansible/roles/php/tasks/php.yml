@@ -1,0 +1,81 @@
+---
+- name: PHP | Add php-7.1 PPA
+  apt_repository: repo='ppa:ondrej/php'
+                  state=present
+                  update_cache=yes
+  sudo: true
+
+- name: PHP | install php packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - php7.1-fpm
+    - php7.1-cli
+    - php7.1-common
+    - php7.1-curl
+    - php7.1-json
+    - php7.1-gd
+    - php7.1-mcrypt
+    - php7.1-odbc
+    - php7.1-pgsql
+    - php7.1-mbstring
+    - php7.1-mysql
+    - php7.1-xmlrpc
+    - php7.1-opcache
+    - php7.1-intl
+    - php7.1-bz2
+    - php7.1-xml
+    - php7.1-memcached
+    - php7.1-mysqlnd
+    - php7.1-gearman
+    - php7.1-imagick
+  sudo: true
+
+- name: PHP | FPM php.ini
+  template:
+    src=php.ini.j2
+    dest=/etc/php/7.1/fpm/php.ini
+    backup=yes
+    owner=root
+    group=root
+    mode=0644
+  sudo: true
+
+- name: PHP | CLI php.ini
+  template:
+    src=php.ini.j2
+    dest=/etc/php/7.1/cli/php.ini
+    backup=yes
+    owner=root
+    group=root
+    mode=0644
+  sudo: true
+
+- name: PHP | configure opcache
+  template:
+    src=opcache.ini.j2
+    dest=/etc/php/7.1/mods-available/opcache.ini
+    backup=yes
+    owner=root
+    group=root
+    mode=0644
+  sudo: true
+
+- name: PHP | configure for nginx 1
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf regexp="^[#|;]?group = www" insertafter="^[#|;]?group = www" line="group = vagrant"
+  sudo: true
+
+- name: PHP | configure for nginx 2
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf regexp="^[#|;]?listen\.group = www" insertafter="^[#|;]?listen\.group = www" line="listen.group = vagrant"
+  sudo: true
+
+- name: PHP | configure for nginx 3
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf regexp="^[#|;]?listen\.mode = 0660" insertafter="^[#|;]?listen\.mode = 0660" line="listen.mode = 0660"
+  sudo: true
+
+- name: PHP | restart nginx
+  raw: service php7.1-fpm restart
+  sudo: true
+
+- name: PHP | restart fpm
+  raw: service php7.1-fpm restart
+  sudo: true

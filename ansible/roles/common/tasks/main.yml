@@ -1,0 +1,32 @@
+---
+- name: Set /etc/timezone to UTC
+  copy: dest=/etc/timezone content="Etc/UTC\n" owner=root group=root mode=0644
+  notify: update tzdata
+  tags: timezone
+- name: update tz data, if necessary
+  meta: flush_handlers
+- name: install common packages
+  apt: pkg={{item}} update_cache=yes cache_valid_time=86400
+  with_items:
+    - git
+    - gnupg
+    - nodejs
+    - nodejs-legacy
+    - npm
+    - python-apt
+    - python-mysqldb
+    - software-properties-common
+    - unattended-upgrades
+    - update-notifier-common
+    - ufw
+    - unzip
+- name: install optional packages
+  apt: pkg={{item}}
+  with_items:
+    - tmux
+    - silversearcher-ag
+  ignore_errors: yes
+- name: allow ssh through firewall
+  ufw: rule=allow name=OpenSSH
+- name: enable ufw firewall
+  ufw: state=enabled policy=deny
