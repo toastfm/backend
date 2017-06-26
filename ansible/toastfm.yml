@@ -1,0 +1,16 @@
+---
+- name: toastfm all-in-one server
+  hosts: webs
+  roles:
+    - common
+    - nginx
+    - mysql
+    - memcached
+    - php
+    # - toastfm
+    - Stouts.elasticsearch
+    # - gearman
+    # - gearman-manager
+    # - cron
+  environment:
+    MTH_ENVIRONMENT: "{{ tfm_environment }}"

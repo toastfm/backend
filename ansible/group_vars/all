@@ -1,0 +1,38 @@
+---
+
+home_dir: "/home/vagrant"
+sites_dir: "/home/vagrant/sites"
+
+tfm_dir: "{{sites_dir}}/toastfm"
+tfm_checkout: "{{tfm_dir}}/current"
+tfm_environment: development
+
+
+php_pm: static
+php_pm_max_children: 5
+gearman_manager_workers: 2
+
+# default: not a production or staging environment
+prod_or_staging: no
+
+# vim:filetype=yaml:
+
+username: vagrant
+
+# php.ini settings
+php_memory_limit: 512M
+php_max_execution_time: 60
+php_post_max_size: 100M
+php_upload_max_filesize: 100M
+php_display_errors: On
+php_display_startup_errors: On
+php_html_errors: On
+php_date_timezone: America/New_York
+
+# Local hosts file location
+# Default location on *nix hosts is '/etc/hosts'
+hosts_file_location: "/etc/hosts"
+
+# Set the level of verbosity that Ansible will use
+# This can be one of "", "v", "vv", "vvv", or "vvvv"
+ansible_verbosity: ""

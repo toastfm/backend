@@ -1,0 +1,21 @@
+
+alias mth="cd /vagrant"
+
+## logs
+alias syslog="sudo tail -f /var/log/syslog"
+alias error_log="sudo tail -f /var/log/nginx/error.log"
+alias monolog="tail -f /tmp/logger/logger.log"
+alias elasticsearch_indices="curl 'localhost:9200/_cat/indices?v"
+alias elasticsearch_log="tail -f /var/log/elasticsearch/elasticsearch.log"
+alias gearman_status="gearadmin --status"
+alias gearman_workers="gearadmin --workers"
+alias gearman_log="tail -f /var/log/gearman-job-server/gearman.log"
+
+## phing
+alias lint="cd /vagrant && vendor/bin/phing lint"
+alias tests="cd /vagrant && vendor/bin/phing tests"
+
+alias clear_cache="cd /vagrant && php vendor/bin/doctrine orm:clear-cache:metadata && php vendor/bin/doctrine orm:clear-cache:result && php vendor/bin/doctrine orm:clear-cache:query"
+
+## services
+alias kickgm="sudo /etc/init.d/gearman-manager stop ; sudo /etc/init.d/gearman-manager start"
